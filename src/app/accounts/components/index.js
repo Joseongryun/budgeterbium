@@ -1,2 +1,2 @@
-export {default as AccountsListView} from './AccountsListView';
-export {default as CreateEditAccount} from './CreateEditAccount';
+export {default as AccountsList} from './AccountsList';
+export {default as CreateUpdateAccount} from './CreateUpdateAccount';

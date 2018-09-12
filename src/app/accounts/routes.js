@@ -3,17 +3,17 @@ import * as components from './components'
 export default [
   {
     path: '/',
-    component: components.AccountsListView,
-    name: 'accountsListView'
+    component: components.AccountsList,
+    name: 'accountsList'
   },
   {
-    path: '/accounts/craete',
-    component: components.CreateEditAccount,
+    path: '/accounts/create',
+    component: components.CreateUpdateAccount,
     name: 'createAccount'
   },
   {
     path: '/accounts/:accountId/edit',
-    component: components.CreateEditAccount,
+    component: components.CreateUpdateAccount,
     name: 'EditAccount'
   },
 ]

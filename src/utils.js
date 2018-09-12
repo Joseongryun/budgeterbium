@@ -10,8 +10,19 @@ export const guid = function () {
 
 export const processAPIData = function(data){
   let res = {};  
-  Object.keys(res).forEach((key) => {
-    account[res[key].id] = res[key];
+  Object.keys(data).forEach((key) => {
+    res[data[key].id] = data[key];
   });
   return res;
-}
+};
+
+export const sortObjects = (objects, key, reverse = false) => {
+  let sortedKeys = Object.keys(objects).sort((a, b) => {
+    if (reverse) return objects[b][key] - objects[a][key];
+    return objects[a][key] - objects[b][key];
+  });
+
+  return sortedKeys.map((k) => {
+    return objects[k];
+  });
+};

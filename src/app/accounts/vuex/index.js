@@ -1,6 +1,6 @@
 import * as actions from './actions';
 import getters from './getters';
-import mutaions from './mutations'
+import mutations from './mutations'
 
 const state = {
   accounts: {}
