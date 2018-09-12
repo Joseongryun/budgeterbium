@@ -51,38 +51,39 @@
       }
     },
     mounted() {
-      if('accountId' in this.$route.params){
-        let selectedAccount = this.getAccountById(this.$route.params.accountId);
-        if(selectedAccount){
-          this.editing = true;
-          this.selectedAccount = {
-            name : selectedAccount.name,
-            category: selectedAccount.category,
-            id: selectedAccount.id
-          };
-        }
+      if ('accountId' in this.$route.params) {
+        this.loadAccounts().then(() => {
+          let selectedAccount = this.getAccountById(this.$route.params.accountId);
+          if (selectedAccount) {
+            this.editing = true;
+            this.selectedAccount = Object.assign({}, selectedAccount);
+          }
+        });
       }
     },
     methods: {
       ...mapActions([
         'addAccount',
-        'updateAccount'
+        'updateAccount',
+        'loadAccounts'
       ]),
-      resetAndGo(){
+      resetAndGo() {
         this.selectedAccount = {};
-        this.$router.push({name : 'accountsListView'});
+        this.$router.push({
+          name: 'accountsListView'
+        });
       },
       saveNewAccount() {
         this.addAccount(this.selectedAccount).then(() => {
           this.resetAndGo();
         })
       },
-      saveAccount(){
-        this.updateAccount(this.selectedAccount).then(()=>{
+      saveAccount() {
+        this.updateAccount(this.selectedAccount).then(() => {
           this.resetAndGo();
         })
       },
-      processSave(){
+      processSave() {
         this.editing ? this.saveAccount() : this.saveNewAccount();
       }
     },

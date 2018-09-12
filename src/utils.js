@@ -7,3 +7,11 @@ export const guid = function () {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 };
+
+export const processAPIData = function(data){
+  let res = {};  
+  Object.keys(res).forEach((key) => {
+    account[res[key].id] = res[key];
+  });
+  return res;
+}

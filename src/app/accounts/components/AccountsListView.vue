@@ -30,9 +30,13 @@
         categories: CATEGORIES
       }
     },
+    mounted (){
+      this.loadAccounts();
+    },
     methods: {
       ...mapActions([
-        'deleteAccount'
+        'deleteAccount',
+        'loadAccounts'
       ]),
       comfirmDeleteAccount ( account) {
         if(confirm(`Are you sure you want delete ${account.name}?`)){
