@@ -7,8 +7,13 @@ export default [
     name: 'accountsListView'
   },
   {
-    path: 'accounts/craete',
+    path: '/accounts/craete',
     component: components.CreateEditAccount,
-    name: 'createEditAccount'
-  }
+    name: 'createAccount'
+  },
+  {
+    path: '/accounts/:accountId/edit',
+    component: components.CreateEditAccount,
+    name: 'EditAccount'
+  },
 ]

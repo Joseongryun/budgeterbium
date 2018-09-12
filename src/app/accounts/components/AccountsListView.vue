@@ -1,13 +1,15 @@
 <template>
   <div id="accounts-list-view">
     I'm a list of accounts!
-    <router-link :to="{ name: 'createEditAccount' }">Add an account</router-link>
+    <router-link :to="{ name: 'createAccount' }">Add an account</router-link>
 
     <ul>
       <li v-for="(account, key) in accounts" :key="key">
 
         <span class="tag is-small is-info"></span>
         $
+        <a @click="confirmDeleteAccount(account)">Delete</a>
+        <router-link :to="{name : 'editAccount', params : {accountId: account.id}}">Edit</router-link>
       </li>
     </ul>
   </div>
@@ -15,7 +17,8 @@
 
 <script>
   import {
-    mapState
+    mapState,
+    mapActions
   } from 'vuex';
   import {
     CATEGORIES
@@ -25,6 +28,16 @@
     data() {
       return {
         categories: CATEGORIES
+      }
+    },
+    methods: {
+      ...mapActions([
+        'deleteAccount'
+      ]),
+      comfirmDeleteAccount ( account) {
+        if(confirm(`Are you sure you want delete ${account.name}?`)){
+          this.deleteAccount(account);
+        }
       }
     },
     computed: {
@@ -37,6 +50,6 @@
 </script>
 
 <style scoped lang='scss'>
-#accounts-list-view {
-}
+  #accounts-list-view {}
+
 </style>

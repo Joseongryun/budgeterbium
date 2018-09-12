@@ -3,22 +3,23 @@
     You can create and edit accounts!
     <router-link :to="{name : 'accountsListVue'}">View all accounts</router-link>
 
-    <form class="form" @submit.prevent="saveNewAccount">
+    <form class="form" @submit.prevent="processSave">
       <label for="name" class="label">Name</label>
       <p class="control">
-        <input type="text" class="input" name="name" v-model="newAccount.name">
+        <input type="text" class="input" name="name" v-model="selectedAccount.name">
       </p>
       <label for="category" class="label">Category</label>
       <p class="control">
         <span class="select">
-          <select name="category" v-model="newAccount.category">
+          <select name="category" v-model="selectedAccount.category">
             <option v-for="(value, key) in categories" :value="key" :key="key"></option>
           </select>
         </span>
       </p>
       <label for="balance" class="label">Balance</label>
       <p class="control">
-        <input type="text" name="balance" class="input" v-model="newAccount.balance">
+        <input type="text" name="balance" class="input" v-model="selectedAccount.balance" v-if="!editing">
+        <span v-else>To update your balance, add a balance adjusting transaction.</span>
       </p>
       '<div class="control is-grouped">
         <p class="control">
@@ -29,13 +30,13 @@
         </p>
       </div>
     </form>
-
   </div>
 </template>
 
 <script>
   import {
-    mapActions
+    mapActions,
+    mapGetters
   } from "vuex";
   import {
     CATEGORIES
@@ -45,19 +46,51 @@
     data() {
       return {
         categories: CATEGORIES,
-        newAccount: {}
+        selectedAccount: {},
+        editing: false
+      }
+    },
+    mounted() {
+      if('accountId' in this.$route.params){
+        let selectedAccount = this.getAccountById(this.$route.params.accountId);
+        if(selectedAccount){
+          this.editing = true;
+          this.selectedAccount = {
+            name : selectedAccount.name,
+            category: selectedAccount.category,
+            id: selectedAccount.id
+          };
+        }
       }
     },
     methods: {
       ...mapActions([
-        'addAccount'
+        'addAccount',
+        'updateAccount'
       ]),
-      saveNewAccount(){
-        this.addAccount(this.newAccount).then(()=>{
-          this.newAccount = {};
+      resetAndGo(){
+        this.selectedAccount = {};
+        this.$router.push({name : 'accountsListView'});
+      },
+      saveNewAccount() {
+        this.addAccount(this.selectedAccount).then(() => {
+          this.resetAndGo();
         })
+      },
+      saveAccount(){
+        this.updateAccount(this.selectedAccount).then(()=>{
+          this.resetAndGo();
+        })
+      },
+      processSave(){
+        this.editing ? this.saveAccount() : this.saveNewAccount();
       }
-    }
+    },
+    computed: {
+      ...mapGetters([
+        'getAccountById'
+      ])
+    },
   }
 
 </script>
